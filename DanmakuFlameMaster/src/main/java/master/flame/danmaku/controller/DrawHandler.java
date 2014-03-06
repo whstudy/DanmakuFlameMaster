@@ -2,6 +2,7 @@
 package master.flame.danmaku.controller;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -242,6 +243,12 @@ public class DrawHandler extends Handler {
 
     public boolean getVisibility() {
         return mDanmakusVisible;
+    }
+
+    public void draw(Canvas canvas) {
+        if (drawTask == null)
+            return;
+        drawTask.draw(canvas);
     }
 
 }

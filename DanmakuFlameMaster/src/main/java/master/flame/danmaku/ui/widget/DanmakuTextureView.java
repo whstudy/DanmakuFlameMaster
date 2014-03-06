@@ -42,7 +42,7 @@ import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 public class DanmakuTextureView extends TextureView implements IDanmakuView,
         TextureView.SurfaceTextureListener, View.OnClickListener {
 
-    public static final String TAG = "DanmakuSurfaceView";
+    public static final String TAG = "DanmakuTextureView";
 
     private Callback mCallback;
 
@@ -188,11 +188,12 @@ public class DanmakuTextureView extends TextureView implements IDanmakuView,
         long dtime = 0;
         Canvas canvas = lockCanvas();
         if (canvas != null) {
-            if(handler != null){
-                handler.drawTask.draw(canvas);
+            if (handler != null) {
+                handler.draw(canvas);
                 dtime = System.currentTimeMillis() - stime;
                 if (mShowFps) {
-                    String fps = String.format("%02d MS, fps %.2f", dtime, 1000 / (float) dtime);
+                    String fps = String.format("%02d MS, fps %.2f", dtime,
+                            1000 / (float) Math.max(1, dtime));
                     DrawHelper.drawFPS(canvas, fps);
                 }
             }
