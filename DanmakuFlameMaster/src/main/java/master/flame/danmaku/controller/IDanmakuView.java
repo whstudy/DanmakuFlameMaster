@@ -104,4 +104,6 @@ public interface IDanmakuView {
      */
     public long hideAndPauseDrawTask();
 
+    public void test();
+
 }

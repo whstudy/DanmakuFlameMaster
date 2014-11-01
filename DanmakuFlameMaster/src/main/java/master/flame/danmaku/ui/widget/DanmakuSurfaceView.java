@@ -19,9 +19,11 @@ package master.flame.danmaku.ui.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -32,6 +34,7 @@ import master.flame.danmaku.controller.DrawHandler.Callback;
 import master.flame.danmaku.controller.DrawHelper;
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
+import master.flame.danmaku.danmaku.model.DanmakuTimer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 
 import java.util.LinkedList;
@@ -398,6 +401,29 @@ public class DanmakuSurfaceView extends SurfaceView implements IDanmakuView, Sur
             return handler.geCurrenttTime();
         }
         return 0;
+    }
+
+    @Override
+    public void test() {
+        Canvas canvas = mSurfaceHolder.lockCanvas();
+        if (canvas != null) {
+            DanmakuTimer timer = new DanmakuTimer();
+            timer.update(System.nanoTime());
+            long consumingTime1 = 0, consumingTime2 = 0;
+            for (int i = 0; i < 30; i++) {
+                DrawHelper.useDrawColorToClearCanvas(false);
+                DrawHelper.clearCanvas(canvas);
+                consumingTime2 += timer.update(System.nanoTime());
+                DrawHelper.useDrawColorToClearCanvas(true);
+                DrawHelper.clearCanvas(canvas);
+                consumingTime1 += timer.update(System.nanoTime());
+            }
+            Log.i("DrawHandler", Build.MODEL + ",drawColor" + consumingTime1 + ",drawRect"
+                    + consumingTime2 + ",useDrawColorToClearCanvas:"
+                    + (consumingTime1 < consumingTime2));
+            DrawHelper.useDrawColorToClearCanvas(consumingTime1 < consumingTime2);
+            mSurfaceHolder.unlockCanvasAndPost(canvas);
+        }
     }
 
 }

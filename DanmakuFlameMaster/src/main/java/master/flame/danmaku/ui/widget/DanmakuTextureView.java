@@ -410,4 +410,10 @@ public class DanmakuTextureView extends TextureView implements IDanmakuView,
         return 0;
     }
 
+    @Override
+    public void test() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

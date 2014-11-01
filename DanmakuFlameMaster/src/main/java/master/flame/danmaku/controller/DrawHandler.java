@@ -337,10 +337,10 @@ public class DrawHandler extends Handler {
             long averageTime = getAverageRenderingTime();
             long gapTime = time - timer.currMillisecond;
             if (mSkipFrames > 0
-                    || (mRenderingState != null && (gapTime > 120
-                            || averageTime > 30 || mRenderingState.consumingTime > 60))) {
+                    || (mRenderingState != null && (gapTime > 180
+                            || averageTime > 50 || mRenderingState.consumingTime > 60))) {
                 d = timer.add(Math.max(Math.min(mRenderingState.consumingTime, averageTime),
-                        gapTime / 4));
+                        gapTime / 10));
                 if (mSkipFrames <= 0) {
                     mSkipFrames = 4;
                 } else {
@@ -358,20 +358,20 @@ public class DrawHandler extends Handler {
     }
     
     private void initRenderingState() {
-        DanmakuTimer timer = new DanmakuTimer();
-        timer.update(System.nanoTime());
-        DrawHelper.useDrawColorToClearCanvas(true);
-        for (int i = 0; i < 3; i++) {
-            mDanmakuView.clear();
-        }
-        long consumingTime1 = timer.update(System.nanoTime());
-        DrawHelper.useDrawColorToClearCanvas(false);
-        for (int i = 0; i < 3; i++) {
-            mDanmakuView.clear();
-        }
-        long consumingTime2 = timer.update(System.nanoTime());
-        Log.i("DrawHandler",Build.MODEL+",drawColor"+consumingTime1+",drawRect"+consumingTime2+",useDrawColorToClearCanvas:"+(consumingTime1 < consumingTime2));
-        DrawHelper.useDrawColorToClearCanvas(consumingTime1 < consumingTime2);
+          mDanmakuView.test();
+//        DanmakuTimer timer = new DanmakuTimer();
+//        timer.update(System.nanoTime());
+//        long consumingTime1 = 0,consumingTime2 = 0;
+//        for (int i = 0; i < 30; i++) {
+//            DrawHelper.useDrawColorToClearCanvas(false);
+//            mDanmakuView.clear();
+//            consumingTime2 += timer.update(System.nanoTime());
+//            DrawHelper.useDrawColorToClearCanvas(true);
+//            mDanmakuView.clear();
+//            consumingTime1 += timer.update(System.nanoTime());
+//        }
+//        Log.i("DrawHandler",Build.MODEL+",drawColor"+consumingTime1+",drawRect"+consumingTime2+",useDrawColorToClearCanvas:"+(consumingTime1 < consumingTime2));
+//        DrawHelper.useDrawColorToClearCanvas(consumingTime1 < consumingTime2);
     }
 
     private void prepare(final Runnable runnable) {
