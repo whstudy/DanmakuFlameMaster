@@ -18,10 +18,12 @@ package master.flame.danmaku.controller;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import master.flame.danmaku.danmaku.model.AbsDisplayer;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
@@ -354,6 +356,23 @@ public class DrawHandler extends Handler {
         }
         return d;
     }
+    
+    private void initRenderingState() {
+        DanmakuTimer timer = new DanmakuTimer();
+        timer.update(System.nanoTime());
+        DrawHelper.useDrawColorToClearCanvas(true);
+        for (int i = 0; i < 3; i++) {
+            mDanmakuView.clear();
+        }
+        long consumingTime1 = timer.update(System.nanoTime());
+        DrawHelper.useDrawColorToClearCanvas(false);
+        for (int i = 0; i < 3; i++) {
+            mDanmakuView.clear();
+        }
+        long consumingTime2 = timer.update(System.nanoTime());
+        Log.i("DrawHandler",Build.MODEL+",drawColor"+consumingTime1+",drawRect"+consumingTime2+",useDrawColorToClearCanvas:"+(consumingTime1 < consumingTime2));
+        DrawHelper.useDrawColorToClearCanvas(consumingTime1 < consumingTime2);
+    }
 
     private void prepare(final Runnable runnable) {
         if (drawTask == null) {
@@ -362,6 +381,7 @@ public class DrawHandler extends Handler {
                     new IDrawTask.TaskListener() {
                         @Override
                         public void ready() {
+                            initRenderingState();
                             runnable.run();
                         }
 
