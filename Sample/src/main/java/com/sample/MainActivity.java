@@ -247,9 +247,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
 
 //                @Override
-                public void danmakuShown(BaseDanmaku danmaku) {
+//                public void danmakuShown(BaseDanmaku danmaku) {
 //                    Log.d("DFM", "danmakuShown(): text=" + danmaku.text);
-                }
+//                }
 
                 @Override
                 public void prepared() {
