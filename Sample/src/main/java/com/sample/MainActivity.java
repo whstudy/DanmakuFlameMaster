@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -52,6 +53,8 @@ import master.flame.danmaku.danmaku.parser.android.BiliDanmukuParser;
 import master.flame.danmaku.danmaku.util.IOUtils;
 
 public class MainActivity extends Activity implements View.OnClickListener {
+
+    private VideoView myview;
 
     private IDanmakuView mDanmakuView;
 
@@ -271,7 +274,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     mediaPlayer.start();
                 }
             });
-            mVideoView.setVideoPath(Environment.getExternalStorageDirectory() + "/1.flv");
+            mVideoView.setVideoPath(Environment.getExternalStorageDirectory() + "/哔哩哔哩/tv.danmaku.bili/download/1482910/1/lua.flv.bapi.2_remux.mp4");
+//            "/storage/sdcard0";
+//            mVideoView.setVideoPath(Environment.getExternalStorageDirectory() + "/1.flv");
+            myview=mVideoView;
         }
 
     }
@@ -288,7 +294,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         if (mDanmakuView != null && mDanmakuView.isPrepared() && mDanmakuView.isPaused()) {
-            mDanmakuView.resume();
+//            mDanmakuView.resume();
         }
     }
 
@@ -335,8 +341,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             // mDanmakuView.showAndResumeDrawTask(mPausedPosition); // sync to the video time in your practice
         } else if (v == mBtnPauseDanmaku) {
             mDanmakuView.pause();
+            myview.pause();
         } else if (v == mBtnResumeDanmaku) {
             mDanmakuView.resume();
+            myview.start();
         } else if (v == mBtnSendDanmaku) {
             addDanmaku(false);
         } else if (v == mBtnSendDanmakuTextAndImage) {
