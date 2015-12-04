@@ -287,6 +287,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onPause();
         if (mDanmakuView != null && mDanmakuView.isPrepared()) {
             mDanmakuView.pause();
+            myview.pause();
         }
     }
 
