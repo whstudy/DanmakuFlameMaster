@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.VideoView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -228,7 +230,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         .setMaximumLines(maxLinesPair)
         .preventOverlapping(overlappingEnablePair);
         if (mDanmakuView != null) {
-            mParser = createParser(this.getResources().openRawResource(R.raw.comments));
+//            mParser = createParser(this.getResources().openRawResource(R.raw.comments));
+            try {
+                mParser = createParser(new FileInputStream(Environment.getExternalStorageDirectory() + "/哔哩哔哩/tv.danmaku.bili/download/1482910/1/danmaku.xml"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
                 @Override
                 public void updateTimer(DanmakuTimer timer) {
@@ -238,6 +245,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 public void drawingFinished() {
 
                 }
+
+//                @Override
+//                public void danmakuShown(BaseDanmaku danmaku) {
+//                    Log.d("DFM", "danmakuShown(): text=" + danmaku.text);
+//                }
 
                 @Override
                 public void danmakuShown(BaseDanmaku danmaku) {
